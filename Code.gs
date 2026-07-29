@@ -130,6 +130,25 @@ function getChannelIcon(channelId) {
   }
 }
 
+// 【手動実行用】全チャンネルの最新のYouTubeアイコンを取得し、スプレッドシートの値を強制的に更新する関数
+// 通常の自動処理(loadAndVerifyChannelData)はアイコンURLが無効(アクセス不可)な場合のみ更新するが、
+// この関数はURLの有効性を問わず、YouTube APIから取得した現在のアイコンで常に上書きする。
+// Apps Scriptエディタからこの関数を選択して手動で実行する。
+function refreshAllChannelIcons() {
+  const channelsSheet = spreadsheet.getSheetByName('channels');
+  const lastRow = channelsSheet.getLastRow();
+
+  for (let i = 2; i <= lastRow; i++) {
+    const channelId = channelsSheet.getRange(i, 2).getValue();
+    if (!channelId) {
+      continue;
+    }
+    updateChannelIcon(channelId);
+  }
+
+  console.log('全チャンネルのアイコン更新が完了しました。');
+}
+
 // Discordへの投稿テキストを生成する関数
 function description_text(apiLiveBroadcastContent, time, convertedDuration, specialMessage = '') {
   if (specialMessage) {
