@@ -1,0 +1,2 @@
+# kaka_Youtube_update
+かかちゃんのYouTubeの予定をDiscordに配信するPG
